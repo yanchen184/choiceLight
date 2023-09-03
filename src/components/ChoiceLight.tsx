@@ -17,10 +17,8 @@ const ChoiceLight = (props: IChoiceLightProps) => {
     if (data.light.trim() === "") return;
 
     const dbRef = ref(db, `choiceLight/${data.id}`);
-
     // 假設您希望在特定 id 的節點上創建或更新數據
     const newData = { light: data.light };
-
     // const specificNodeRef = ref(dbRef, specificId); // 創建特定節點的引用
     set(dbRef, newData)
       .then(() => {
@@ -52,9 +50,7 @@ const ChoiceLight = (props: IChoiceLightProps) => {
             placeholder="請輸入您的大名"
             style={{ width: "200px", height: "30px" }}
             onChange={(e) => {
-              if (e.target.value !== "") {
-                setUserName(e.target.value);
-              }
+              setUserName(e.target.value);
             }}
           />
           <div>是否選擇此造型，並接受這個加價</div>

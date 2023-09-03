@@ -72,21 +72,6 @@ const ChoiceLightList = () => {
     },
   ];
 
-  const playerList = [
-    {
-      name: "小明",
-      light: "工業風造型桌燈",
-    },
-    {
-      name: "小華",
-      light: "原木造型小樹燈",
-    },
-    {
-      name: "小美",
-      light: "Q 比克造型桌燈",
-    },
-  ];
-
   return (
     <>
       <div

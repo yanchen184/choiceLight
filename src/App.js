@@ -1,11 +1,13 @@
 import "./App.css";
+import BingoGame from "./components/BingoGame/BingoGame.tsx";
 import ChoiceLightList from "./components/ChoiceLightList.tsx";
 
 function App() {
   return (
     <>
       <div className="App">
-        <ChoiceLightList />
+        {/* <ChoiceLightList /> */}
+        <BingoGame/>
       </div>
     </>
   );
