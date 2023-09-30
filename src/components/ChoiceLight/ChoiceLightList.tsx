@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ChoiceLight from "./ChoiceLight.tsx";
 import { IChoiceLightProps, IProps } from "./interface";
 import { Row, Col } from "antd";
-import { db } from "../firebase.tsx";
+import { db } from "../../firebase.tsx";
 import { ref, onValue } from "firebase/database";
 
 const ChoiceLightList = () => {

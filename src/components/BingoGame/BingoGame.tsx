@@ -1,57 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Row } from "antd";
+import { Button, Card, Col, Input, Row } from "antd";
 import "./BingoGame.css";
 import { db } from "../../firebase.tsx";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, get } from "firebase/database";
+import useFirebase from "../hook/useFirebase.tsx";
 
 const BingoGame: React.FC = () => {
   const [numbers, setNumbers] = useState<number[]>(
     Array.from({ length: 25 }, (_, index) => index + 1)
   );
-  const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const [winStatus, setWinStatus] = useState<boolean>(false);
-
+  const [errorMessage, setErrorMessage] = useState<String>("");
   const bingoBoard: number[][] = Array.from({ length: 5 }, (_, row) =>
     numbers.slice(row * 5, (row + 1) * 5)
   );
 
-  const addOrUpdateLight = (data: number) => {
-    const dbRef = ref(db, `bingoGame/${data}`);
-    // 假設您希望在特定 id 的節點上創建或更新數據
-    const newData = { number: data };
-    // const specificNodeRef = ref(dbRef, specificId); // 創建特定節點的引用
-    set(dbRef, newData)
-      .then(() => {
+  const { fireBaseData, setFireBaseData, addOrUpdateFirebaseData } =
+    useFirebase("bingoGame/game1/number", setErrorMessage);
+
+  const restartGame = () => {
+    const dbRef = ref(db, `bingoGame/game1/number`);
+    set(dbRef, []).then(() => {
+      setFireBaseData([]);
+      console.log("Data added/updated successfully");
+    });
+  };
+  const [inputPlayerName, setInputPlayerName] = useState<string>("");
+  const [playerName, setPlayerName] = useState<string>("");
+
+  const player = (name: string) => {
+    const dbRef = ref(db, `bingoGame/game1/players`);
+    get(dbRef).then((snapshot) => {
+      const currentData = snapshot.val();
+      if (currentData === name) {
+        setErrorMessage("名字已經被使用了，請重新輸入");
+        return;
+      }
+      const newData = [...currentData, name];
+      set(dbRef, newData).then(() => {
+        setPlayerName(name);
         console.log("Data added/updated successfully");
-      })
-      .catch((error) => {
-        console.error("Error adding/updating data:", error);
       });
+    });
   };
 
-  useEffect(() => {
-    const dbRef = ref(db, "bingoGame");
-    onValue(dbRef, (snapshot) => {
-      const dataList = snapshot.val();
-      console.log(dataList);
-      const dataArray = [];
-      for (let id in dataList) {
-        const mergedString = Object.values(dataList[id]).join("");
-        dataArray.push(mergedString);
-      }
-      setSelectedNumbers(dataArray);
-    });
-  }, []);
-
   const toggleNumber = (number: number): void => {
-    if (selectedNumbers.includes(number)) {
-      setSelectedNumbers(
-        selectedNumbers.filter((selected) => selected !== number)
-      );
+    if (fireBaseData.includes(number)) {
+      setFireBaseData(fireBaseData.filter((selected) => selected !== number));
     } else {
-      setSelectedNumbers([...selectedNumbers, number]);
+      setFireBaseData([...fireBaseData, number]);
     }
-    addOrUpdateLight(number);
+    addOrUpdateFirebaseData(number);
     checkWin();
   };
 
@@ -62,7 +61,7 @@ const BingoGame: React.FC = () => {
     for (let i = 0; i < bingoBoard.length; i++) {
       let count = 0;
       for (let j = 0; j < bingoBoard[i].length; j++) {
-        if (selectedNumbers.includes(bingoBoard[i][j])) {
+        if (fireBaseData.includes(bingoBoard[i][j])) {
           count++;
           if (count === linesToWin) {
             setWinStatus(true);
@@ -78,7 +77,7 @@ const BingoGame: React.FC = () => {
     for (let i = 0; i < bingoBoard[0].length; i++) {
       let count = 0;
       for (let j = 0; j < bingoBoard.length; j++) {
-        if (selectedNumbers.includes(bingoBoard[j][i])) {
+        if (fireBaseData.includes(bingoBoard[j][i])) {
           count++;
           if (count === linesToWin) {
             setWinStatus(true);
@@ -96,7 +95,7 @@ const BingoGame: React.FC = () => {
         let countDiagonal = 0;
         let countAntiDiagonal = 0;
         for (let k = 0; k < linesToWin; k++) {
-          if (selectedNumbers.includes(bingoBoard[i + k][j + k])) {
+          if (fireBaseData.includes(bingoBoard[i + k][j + k])) {
             countDiagonal++;
             if (countDiagonal === linesToWin) {
               setWinStatus(true);
@@ -104,7 +103,7 @@ const BingoGame: React.FC = () => {
             }
           }
           if (
-            selectedNumbers.includes(bingoBoard[i + k][j + linesToWin - 1 - k])
+            fireBaseData.includes(bingoBoard[i + k][j + linesToWin - 1 - k])
           ) {
             countAntiDiagonal++;
             if (countAntiDiagonal === linesToWin) {
@@ -118,21 +117,37 @@ const BingoGame: React.FC = () => {
     setWinStatus(false);
   };
 
-  useEffect(() => {}, [selectedNumbers]);
   return (
     <div>
       <h1>Bingo Game</h1>
+      <Input
+        placeholder="請輸入你的名字"
+        onChange={(e) => {
+          setInputPlayerName(e.target.value);
+        }}
+      />
+      <Button
+        onClick={() => {
+          player(inputPlayerName);
+        }}
+      >
+        確認你的名字
+      </Button>
+
+      <h2>{`你是 ${playerName}`}</h2>
+      <h2>{`現在換 ${playerName}`}</h2>
       <Button
         onClick={() => {
           setNumbers([...numbers.sort(() => Math.random() - 0.5)]);
-          setSelectedNumbers([]);
+          restartGame();
           setWinStatus(false);
         }}
         type="primary"
       >
-        Shuffle Numbers
+        重新開始
       </Button>
-      <div>{selectedNumbers}</div>
+      <div>{fireBaseData}</div>
+      <div>{errorMessage}</div>
       <Card style={{ marginTop: "20px", padding: "20px" }}>
         <div className="bingo-board">
           <Row gutter={10}>
@@ -142,7 +157,7 @@ const BingoGame: React.FC = () => {
                   <div
                     key={number}
                     className={`bingo-cell ${
-                      selectedNumbers.includes(number) ? "selected" : ""
+                      fireBaseData.includes(number) ? "selected" : ""
                     }`}
                     onClick={() => toggleNumber(number)}
                   >
