@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Input, Row } from "antd";
+import React, { useState } from "react";
+import { Button, Card, Col, Row } from "antd";
 import "./BingoGame.css";
-import { db } from "../../firebase.tsx";
-import { ref, onValue, set, get } from "firebase/database";
-import useFirebase from "../hook/useFirebase.tsx";
+import { db } from "../../firebase";
+import { ref, set } from "firebase/database";
+import useFirebase from "../hook/useFirebase";
 
 const BingoGame: React.FC = () => {
   const [numbers, setNumbers] = useState<number[]>(
@@ -25,28 +25,13 @@ const BingoGame: React.FC = () => {
       console.log("Data added/updated successfully");
     });
   };
-  const [inputPlayerName, setInputPlayerName] = useState<string>("");
-  const [playerName, setPlayerName] = useState<string>("");
-
-  const player = (name: string) => {
-    const dbRef = ref(db, `bingoGame/game1/players`);
-    get(dbRef).then((snapshot) => {
-      const currentData = snapshot.val();
-      if (currentData === name) {
-        setErrorMessage("名字已經被使用了，請重新輸入");
-        return;
-      }
-      const newData = [...currentData, name];
-      set(dbRef, newData).then(() => {
-        setPlayerName(name);
-        console.log("Data added/updated successfully");
-      });
-    });
-  };
 
   const toggleNumber = (number: number): void => {
+    console.log(fireBaseData);
     if (fireBaseData.includes(number)) {
-      setFireBaseData(fireBaseData.filter((selected) => selected !== number));
+      setFireBaseData(
+        fireBaseData.filter((selected: number) => selected !== number)
+      );
     } else {
       setFireBaseData([...fireBaseData, number]);
     }
@@ -117,32 +102,43 @@ const BingoGame: React.FC = () => {
     setWinStatus(false);
   };
 
+  // const hexagonData = [
+  //   // 顶点坐标
+  //   [
+  //     [100, 50],
+  //     [150, 10],
+  //     [200, 50],
+  //     [200, 100],
+  //     [150, 150],
+  //     [100, 100],
+  //   ],
+  //   // 相关数据，例如各个能力的分数
+  //   [
+  //     { name: "力量", score: 80 },
+  //     { name: "速度", score: 60 },
+  //     { name: "技巧", score: 90 },
+  //     { name: "发球", score: 70 },
+  //     { name: "防守", score: 85 },
+  //     { name: "经验", score: 75 },
+  //   ],
+  // ];
+
   return (
     <div>
-      <h1>Bingo Game</h1>
-      <Input
-        placeholder="請輸入你的名字"
-        onChange={(e) => {
-          setInputPlayerName(e.target.value);
-        }}
-      />
-      <Button
-        onClick={() => {
-          player(inputPlayerName);
-        }}
-      >
-        確認你的名字
-      </Button>
+      <h1 className="text-3xl font-bold underline text-yellow-600">
+        Bingo Game
+      </h1>
 
-      <h2>{`你是 ${playerName}`}</h2>
-      <h2>{`現在換 ${playerName}`}</h2>
+      <div className="flex justify-center items-center h-screen">
+        <div className="grid grid-cols-3 gap-8"></div>
+      </div>
+
       <Button
         onClick={() => {
           setNumbers([...numbers.sort(() => Math.random() - 0.5)]);
           restartGame();
           setWinStatus(false);
         }}
-        type="primary"
       >
         重新開始
       </Button>

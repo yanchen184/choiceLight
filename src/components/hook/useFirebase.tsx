@@ -1,15 +1,13 @@
 /* eslint-disable prefer-promise-reject-errors */
 import { onValue, ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
-import { db } from "../../firebase.tsx";
+import { db } from "../../firebase";
 
 // "bingoGame/game1/number"
-export function useFirebase(
-  firebaseName: string,
-  setErrorMessage: any
-) {
+export function useFirebase(firebaseName: string, setErrorMessage: any) {
   const [fireBaseData, setFireBaseData] = useState<any>([]);
   const dbRef = ref(db, firebaseName);
+
   useEffect(() => {
     onValue(dbRef, (snapshot) => {
       const dataList = snapshot.val();
@@ -17,6 +15,7 @@ export function useFirebase(
       for (let id in dataList) {
         dataArray.push(dataList[id]);
       }
+      console.log("useEffect", dataArray);
       setFireBaseData(dataArray);
     });
   }, []);
@@ -26,7 +25,6 @@ export function useFirebase(
     // 更新數據
     set(dbRef, newData)
       .then(() => {
-        setFireBaseData(newData);
         console.log("Data added/updated successfully");
       })
       .catch((error) => {

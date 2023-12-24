@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IChoiceLightProps, IProps } from "../interface";
 import { Modal, Input, Button } from "antd";
 import { ref, set } from "firebase/database";
-import { db } from "../../firebase.tsx";
+import { db } from "../../firebase";
 
 const ChoiceLight = (props: IChoiceLightProps) => {
   const item = props;

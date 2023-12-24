@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import ChoiceLight from "./ChoiceLight.tsx";
+import { useEffect, useState } from "react";
+import ChoiceLight from "./ChoiceLight";
 import { IChoiceLightProps, IProps } from "./interface";
 import { Row, Col } from "antd";
-import { db } from "../../firebase.tsx";
+import { db } from "../../firebase";
 import { ref, onValue } from "firebase/database";
 
 const ChoiceLightList = () => {
@@ -94,7 +94,7 @@ const ChoiceLightList = () => {
           <Col span={6} key={index}>
             <ChoiceLight
               imgSrc={item.imgSrc}
-              price={item.price}
+              price={item.price || 0}
               name={item.name}
             />
           </Col>

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import ChoiceLight from "./BingoGame.tsx";
-import { IChoiceLightProps, IProps } from "./interface";
-import { Row, Col } from "antd";
-import { db } from "../../firebase.tsx";
+import { useEffect, useState } from "react";
+import { IProps } from "./interface";
+import { db } from "../../firebase";
 import { ref, onValue } from "firebase/database";
 
 const ChoiceLightList = () => {
