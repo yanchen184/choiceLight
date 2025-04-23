@@ -5,6 +5,7 @@ import { Row, Col } from "antd";
 import { db } from "../../firebase";
 import { ref, onValue } from "firebase/database";
 import "./ChoiceLight.css";
+import { UserOutlined } from "@ant-design/icons";
 
 const ChoiceLightList = () => {
   const [data, setData] = useState<IProps[]>([]);
@@ -14,9 +15,11 @@ const ChoiceLightList = () => {
     onValue(dbRef, (snapshot) => {
       const dataList = snapshot.val();
       const dataArray = [];
-      for (let id in dataList) {
-        const light = dataList[id].light || "";
-        dataArray.push({ id, light });
+      if (dataList) {
+        for (let id in dataList) {
+          const light = dataList[id].light || "";
+          dataArray.push({ id, light });
+        }
       }
       setData(dataArray);
     });
@@ -104,13 +107,20 @@ const ChoiceLightList = () => {
       
       {data.length > 0 && (
         <div className="choice-light-players">
-          <div className="choice-light-players-title">目前的登入玩家：</div>
-          {data.map((item, index) => (
-            <div className="choice-light-player-item" key={index}>
-              <span><strong>{item.id}</strong></span>
-              <span>選擇了: {item.light}</span>
-            </div>
-          ))}
+          <div className="choice-light-players-header">
+            <UserOutlined className="choice-light-players-icon" />
+            <h3 className="choice-light-players-title">目前的登入玩家</h3>
+            <span className="choice-light-players-count">{data.length}</span>
+          </div>
+          
+          <div className="choice-light-players-grid">
+            {data.map((item, index) => (
+              <div className="choice-light-player-item" key={index}>
+                <span className="choice-light-player-name">{item.id}</span>
+                <span className="choice-light-player-choice">{item.light}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
