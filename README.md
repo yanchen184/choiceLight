@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Choice Light
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+這個專案包含多種互動式學習遊戲，包括 Bingo Game、Choice Game、Choice Light 和 Bike Game。
 
-## Available Scripts
+## 線上演示
 
-In the project directory, you can run:
+訪問 [https://yanchen184.github.io/choiceLight](https://yanchen184.github.io/choiceLight) 查看線上演示。
+
+目前版本：**v0.1.0**
+
+## 可用腳本
+
+在專案目錄中，您可以運行：
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+在開發模式下運行應用程序。
+打開 [http://localhost:3000](http://localhost:3000) 在瀏覽器中查看。
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+當您進行更改時，頁面將重新加載。
+您也可能會在控制台中看到任何 lint 錯誤。
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+在互動式監視模式下啟動測試運行程序。
+有關更多信息，請參閱關於[運行測試](https://facebook.github.io/create-react-app/docs/running-tests)的部分。
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+將應用程序構建到 `build` 文件夾。
+它在生產模式下正確捆綁 React，並優化構建以獲得最佳性能。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+構建是壓縮的，文件名包含哈希值。
+您的應用程序已準備好部署！
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm run deploy`
 
-### `npm run eject`
+將應用程序部署到 GitHub Pages。此命令會先構建應用程序，然後將構建結果推送到 gh-pages 分支。
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 技術堆棧
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- React
+- React Router
+- Firebase
+- Chart.js
+- Ant Design
+- Tailwind CSS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 功能
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **登錄系統**：用戶可以通過登錄頁面訪問各種遊戲
+- **Bingo Game**：經典的賓果遊戲
+- **Choice Game**：選擇題遊戲
+- **Choice Light**：反應速度遊戲
+- **Bike Game**：自行車相關遊戲，包括卡片管理
 
-## Learn More
+## 本地開發
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. 克隆存儲庫：
+   ```bash
+   git clone https://github.com/yanchen184/choiceLight.git
+   cd choiceLight
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. 安裝依賴：
+   ```bash
+   npm install
+   ```
 
-### Code Splitting
+3. 運行開發服務器：
+   ```bash
+   npm start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 部署
 
-### Analyzing the Bundle Size
+此專案使用 GitHub Actions 自動部署到 GitHub Pages。每當有新的提交推送到 main 分支時，都會觸發部署流程。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+您也可以手動運行 `npm run deploy` 來部署應用程序。
