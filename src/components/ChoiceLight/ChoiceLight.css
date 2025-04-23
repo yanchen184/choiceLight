@@ -1,0 +1,129 @@
+/* ChoiceLight.css */
+.choice-light-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.choice-light-header {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f0f2f5;
+  border-radius: 8px;
+}
+
+.choice-light-link {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #1890ff;
+  text-decoration: underline;
+}
+
+.choice-light-card {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s;
+  background-color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.choice-light-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.choice-light-image {
+  width: 100%;
+  height: 240px;
+  object-fit: contain;
+  padding: 12px;
+  background-color: #fafafa;
+}
+
+.choice-light-info {
+  padding: 12px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.choice-light-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.choice-light-price {
+  font-size: 14px;
+  color: #ff4d4f;
+}
+
+.choice-light-players {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f0f2f5;
+  border-radius: 8px;
+}
+
+.choice-light-players-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.choice-light-player-item {
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.modal-input {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.modal-message {
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-button {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .choice-light-image {
+    height: 180px;
+  }
+}
