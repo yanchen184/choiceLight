@@ -3,23 +3,25 @@ import { IChoiceLightProps, IProps } from "../interface";
 import { Modal, Input, Button } from "antd";
 import { ref, set } from "firebase/database";
 import { db } from "../../firebase";
+import "./ChoiceLight.css";
 
 const ChoiceLight = (props: IChoiceLightProps) => {
   const item = props;
-
   const [isShowModalOpen, setIsShowModalOpen] = useState(false);
+  const [userName, setUserName] = useState("");
 
+  // Function to handle modal cancel
   const handleShowCancel = () => {
     setIsShowModalOpen(false);
   };
 
+  // Function to add or update light choice in Firebase
   const addOrUpdateLight = (data: IProps) => {
     if (data.light.trim() === "") return;
 
     const dbRef = ref(db, `choiceLight/${data.id}`);
-    // 假設您希望在特定 id 的節點上創建或更新數據
     const newData = { light: data.light };
-    // const specificNodeRef = ref(dbRef, specificId); // 創建特定節點的引用
+    
     set(dbRef, newData)
       .then(() => {
         console.log("Data added/updated successfully");
@@ -29,35 +31,43 @@ const ChoiceLight = (props: IChoiceLightProps) => {
       });
   };
 
-  const [userName, setUserName] = useState("");
-
   return (
     <>
+      {/* Modal for selecting a light */}
       <Modal
         open={isShowModalOpen}
         footer={null}
         onCancel={handleShowCancel}
         maskClosable={true}
-        bodyStyle={{ display: "flex", justifyContent: "center" }}
+        width={400}
+        centered
       >
-        <div className="flex justify-center mt-5">
-          <img
-            src={item.imgSrc}
-            alt={item.imgSrc}
-            style={{ maxWidth: "100%", maxHeight: "100%" }}
+        <div className="modal-content">
+          <img 
+            src={item.imgSrc} 
+            alt={item.name}
+            className="modal-image" 
           />
+          
           <Input
             placeholder="請輸入您的大名"
-            style={{ width: "200px", height: "30px" }}
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
+            className="modal-input"
+            onChange={(e) => setUserName(e.target.value)}
           />
-          <div>是否選擇此造型，並接受這個加價</div>
+          
+          <div className="modal-message">
+            是否選擇 {item.name}，並接受加價 {item.price - 990} 元？
+          </div>
+          
           <Button
             type="primary"
-            style={{ width: "100px", height: "30px", marginLeft: "10px" }}
+            className="modal-button"
             onClick={() => {
+              if (!userName.trim()) {
+                alert("請輸入您的名字");
+                return;
+              }
+              
               setIsShowModalOpen(false);
               const data: IProps = {
                 id: userName,
@@ -66,26 +76,29 @@ const ChoiceLight = (props: IChoiceLightProps) => {
               addOrUpdateLight(data);
             }}
           >
-            確認
+            確認選擇
           </Button>
         </div>
       </Modal>
 
-      <img
-        src={item.imgSrc}
-        alt={item.name}
-        style={{
-          width: "360px",
-          height: "360px",
-          objectFit: "contain",
-          borderRadius: "10px",
-          border: "1px solid #ccc",
-        }}
-        onClick={() => setIsShowModalOpen(true)}
-      />
-
-      <p className="">名稱:{item.name}</p>
-      <p className="">加價:{item.price - 990}</p>
+      {/* Light Item Display */}
+      <div onClick={() => setIsShowModalOpen(true)}>
+        <img
+          src={item.imgSrc}
+          alt={item.name}
+          className="choice-light-image"
+        />
+        
+        <div className="choice-light-info">
+          <div className="choice-light-name">{item.name}</div>
+          <div className="choice-light-price">
+            {item.price === 990 ? 
+              "基本款" : 
+              `加價: ${item.price - 990} 元`
+            }
+          </div>
+        </div>
+      </div>
     </>
   );
 };
