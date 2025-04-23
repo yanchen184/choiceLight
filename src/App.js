@@ -17,7 +17,7 @@ const VersionDisplay = () => {
       fontSize: '12px',
       zIndex: 1000
     }}>
-      v0.1.0
+      v0.2.0
     </div>
   );
 };
