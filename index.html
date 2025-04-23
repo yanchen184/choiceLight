@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choice Light - 正在載入...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .loader-container {
+            text-align: center;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+        }
+        .version {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="version">v0.1.0</div>
+    <div class="loader-container">
+        <div class="loader"></div>
+        <h1>Choice Light</h1>
+        <p>應用程序正在載入，請稍候...</p>
+        <p>如果頁面未自動跳轉，請<a href="https://yanchen184.github.io/choiceLight">點擊這裡</a></p>
+    </div>
+    <script>
+        // 5秒後重定向到實際的應用程序
+        setTimeout(function() {
+            window.location.href = "https://yanchen184.github.io/choiceLight";
+        }, 5000);
+    </script>
+</body>
+</html>
