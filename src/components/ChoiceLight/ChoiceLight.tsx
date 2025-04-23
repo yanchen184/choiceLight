@@ -75,6 +75,11 @@ const ChoiceLight = (props: IChoiceLightProps) => {
               };
               addOrUpdateLight(data);
             }}
+            style={{
+              backgroundColor: "#1890ff",
+              color: "white",
+              fontWeight: "bold"
+            }}
           >
             確認選擇
           </Button>
