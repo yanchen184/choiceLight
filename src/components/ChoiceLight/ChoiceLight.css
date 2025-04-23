@@ -70,30 +70,73 @@
   color: #ff4d4f;
 }
 
+/* 優化「目前的登入玩家」部分 */
 .choice-light-players {
   margin-top: 40px;
   padding: 20px;
-  background-color: #f0f2f5;
+  background-color: #f5f5f5;
   border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.choice-light-players-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.choice-light-players-icon {
+  font-size: 22px;
+  margin-right: 10px;
+  color: #1890ff;
 }
 
 .choice-light-players-title {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 16px;
   color: #333;
+  margin: 0;
+}
+
+.choice-light-players-count {
+  margin-left: 10px;
+  background-color: #1890ff;
+  color: white;
+  font-size: 14px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.choice-light-players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
 }
 
 .choice-light-player-item {
-  padding: 8px;
-  margin-bottom: 8px;
+  padding: 10px 15px;
   background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  border-left: 3px solid #1890ff;
 }
 
+.choice-light-player-name {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.choice-light-player-choice {
+  color: #666;
+  flex-grow: 1;
+  text-align: right;
+}
+
+/* 模態對話框樣式 */
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -102,8 +145,9 @@
 }
 
 .modal-image {
-  max-width: 100%;
-  height: auto;
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: contain;
   margin-bottom: 20px;
 }
 
@@ -116,14 +160,33 @@
   margin-bottom: 20px;
   font-weight: bold;
   text-align: center;
+  color: #333;
 }
 
+/* 修復確認按鈕顏色問題 */
 .modal-button {
   width: 100%;
+  height: 40px;
+  background-color: #1890ff !important;
+  color: white !important;
+  font-size: 16px;
+  font-weight: bold;
+  border: none !important;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.modal-button:hover {
+  background-color: #40a9ff !important;
 }
 
 @media (max-width: 768px) {
   .choice-light-image {
     height: 180px;
+  }
+  
+  .choice-light-players-grid {
+    grid-template-columns: 1fr;
   }
 }
