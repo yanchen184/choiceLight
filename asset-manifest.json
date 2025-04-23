@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/choiceLight/static/css/main.615cc7d8.css",
+    "main.css": "/choiceLight/static/css/main.a67249b5.css",
     "main.js": "/choiceLight/static/js/main.790989e6.js",
     "static/js/787.2b910fd6.chunk.js": "/choiceLight/static/js/787.2b910fd6.chunk.js",
     "index.html": "/choiceLight/index.html",
-    "main.615cc7d8.css.map": "/choiceLight/static/css/main.615cc7d8.css.map",
+    "main.a67249b5.css.map": "/choiceLight/static/css/main.a67249b5.css.map",
     "main.790989e6.js.map": "/choiceLight/static/js/main.790989e6.js.map",
     "787.2b910fd6.chunk.js.map": "/choiceLight/static/js/787.2b910fd6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.615cc7d8.css",
+    "static/css/main.a67249b5.css",
     "static/js/main.790989e6.js"
   ]
 }
