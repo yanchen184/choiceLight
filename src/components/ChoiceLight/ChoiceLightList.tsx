@@ -4,6 +4,7 @@ import { IChoiceLightProps, IProps } from "./interface";
 import { Row, Col } from "antd";
 import { db } from "../../firebase";
 import { ref, onValue } from "firebase/database";
+import "./ChoiceLight.css";
 
 const ChoiceLightList = () => {
   const [data, setData] = useState<IProps[]>([]);
@@ -14,8 +15,8 @@ const ChoiceLightList = () => {
       const dataList = snapshot.val();
       const dataArray = [];
       for (let id in dataList) {
-        const mergedString = Object.values(dataList[id]).join("");
-        dataArray.push({ id, light: mergedString });
+        const light = dataList[id].light || "";
+        dataArray.push({ id, light });
       }
       setData(dataArray);
     });
@@ -73,42 +74,46 @@ const ChoiceLightList = () => {
   ];
 
   return (
-    <>
-      <div
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          textAlign: "center",
-          margin: "20px 0",
-        }}
-      >
+    <div className="choice-light-container">
+      <div className="choice-light-header">
         8/25號晚上七點 在台灣台北市信義區菸廠路88號2樓Hubox
       </div>
-      <div className="mb-3">
-        <a href="https://www.kkday.com/zh-tw/product/12030">
-          詳情請點選此KK day連結
-        </a>
-      </div>
+      
+      <a 
+        href="https://www.kkday.com/zh-tw/product/12030"
+        className="choice-light-link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        詳情請點選此KK day連結
+      </a>
+      
       <Row gutter={[16, 16]}>
         {IChoiceLight.map((item, index) => (
-          <Col span={6} key={index}>
-            <ChoiceLight
-              imgSrc={item.imgSrc}
-              price={item.price || 0}
-              name={item.name}
-            />
+          <Col xs={24} sm={12} md={8} lg={6} key={index}>
+            <div className="choice-light-card">
+              <ChoiceLight
+                imgSrc={item.imgSrc}
+                price={item.price || 0}
+                name={item.name}
+              />
+            </div>
           </Col>
         ))}
       </Row>
-      <div>目前的登入玩家：</div>
-      <div>
-        {data.map((item, index) => (
-          <div key={index}>
-            {item.id} - {item.light}
-          </div>
-        ))}
-      </div>
-    </>
+      
+      {data.length > 0 && (
+        <div className="choice-light-players">
+          <div className="choice-light-players-title">目前的登入玩家：</div>
+          {data.map((item, index) => (
+            <div className="choice-light-player-item" key={index}>
+              <span><strong>{item.id}</strong></span>
+              <span>選擇了: {item.light}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
