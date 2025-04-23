@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IChoiceLightProps, IProps } from "./interface";
-import { Modal, Input, Button } from "antd";
+import { Modal, Input } from "antd";
 import { ref, set } from "firebase/database";
 import { db } from "../../firebase";
 import "./ChoiceLight.css";
@@ -59,9 +59,8 @@ const ChoiceLight = (props: IChoiceLightProps) => {
             是否選擇 {item.name}，並接受加價 {item.price - 990} 元？
           </div>
           
-          <Button
-            type="primary"
-            className="modal-button"
+          <button
+            className="custom-confirm-button"
             onClick={() => {
               if (!userName.trim()) {
                 alert("請輸入您的名字");
@@ -75,14 +74,9 @@ const ChoiceLight = (props: IChoiceLightProps) => {
               };
               addOrUpdateLight(data);
             }}
-            style={{
-              backgroundColor: "#1890ff",
-              color: "white",
-              fontWeight: "bold"
-            }}
           >
             確認選擇
-          </Button>
+          </button>
         </div>
       </Modal>
 
