@@ -1,34 +1,46 @@
 import { useState } from "react";
 import { IChoiceLightProps, IProps } from "./interface";
 import { Modal, Input } from "antd";
-import { ref, set } from "firebase/database";
-import { db } from "../../firebase";
 import "./ChoiceLight.css";
 
-const ChoiceLight = (props: IChoiceLightProps) => {
-  const item = props;
+// Extended interface to include callback function
+interface IChoiceLightPropsExtended extends IChoiceLightProps {
+  onSelectLight?: (data: IProps) => void;
+}
+
+const ChoiceLight = (props: IChoiceLightPropsExtended) => {
+  const { imgSrc, price, name, onSelectLight } = props;
   const [isShowModalOpen, setIsShowModalOpen] = useState(false);
   const [userName, setUserName] = useState("");
 
   // Function to handle modal cancel
   const handleShowCancel = () => {
     setIsShowModalOpen(false);
+    setUserName(""); // Reset username when modal is closed
   };
 
-  // Function to add or update light choice in Firebase
-  const addOrUpdateLight = (data: IProps) => {
-    if (data.light.trim() === "") return;
-
-    const dbRef = ref(db, `choiceLight/${data.id}`);
-    const newData = { light: data.light };
+  // Function to handle light selection
+  const handleLightSelection = () => {
+    if (!userName.trim()) {
+      alert("請輸入您的名字");
+      return;
+    }
     
-    set(dbRef, newData)
-      .then(() => {
-        console.log("Data added/updated successfully");
-      })
-      .catch((error) => {
-        console.error("Error adding/updating data:", error);
-      });
+    const data: IProps = {
+      id: userName.trim(),
+      light: name || "",
+    };
+    
+    // Call the callback function if provided
+    if (onSelectLight) {
+      onSelectLight(data);
+    }
+    
+    setIsShowModalOpen(false);
+    setUserName(""); // Reset username after selection
+    
+    // Show confirmation message
+    alert(`謝謝 ${userName}！您已選擇 ${name}`);
   };
 
   return (
@@ -44,36 +56,26 @@ const ChoiceLight = (props: IChoiceLightProps) => {
       >
         <div className="modal-content">
           <img 
-            src={item.imgSrc} 
-            alt={item.name}
+            src={imgSrc} 
+            alt={name}
             className="modal-image" 
           />
           
           <Input
             placeholder="請輸入您的大名"
             className="modal-input"
+            value={userName}
             onChange={(e) => setUserName(e.target.value)}
+            onPressEnter={handleLightSelection}
           />
           
           <div className="modal-message">
-            是否選擇 {item.name}，並接受加價 {item.price - 990} 元？
+            是否選擇 {name}，並接受加價 {price - 990} 元？
           </div>
           
           <button
             className="custom-confirm-button"
-            onClick={() => {
-              if (!userName.trim()) {
-                alert("請輸入您的名字");
-                return;
-              }
-              
-              setIsShowModalOpen(false);
-              const data: IProps = {
-                id: userName,
-                light: item.name || "",
-              };
-              addOrUpdateLight(data);
-            }}
+            onClick={handleLightSelection}
           >
             確認選擇
           </button>
@@ -83,17 +85,17 @@ const ChoiceLight = (props: IChoiceLightProps) => {
       {/* Light Item Display */}
       <div onClick={() => setIsShowModalOpen(true)}>
         <img
-          src={item.imgSrc}
-          alt={item.name}
+          src={imgSrc}
+          alt={name}
           className="choice-light-image"
         />
         
         <div className="choice-light-info">
-          <div className="choice-light-name">{item.name}</div>
+          <div className="choice-light-name">{name}</div>
           <div className="choice-light-price">
-            {item.price === 990 ? 
+            {price === 990 ? 
               "基本款" : 
-              `加價: ${item.price - 990} 元`
+              `加價: ${price - 990} 元`
             }
           </div>
         </div>

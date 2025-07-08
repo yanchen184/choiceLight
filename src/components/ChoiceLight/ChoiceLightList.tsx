@@ -1,29 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ChoiceLight from "./ChoiceLight";
 import { IChoiceLightProps, IProps } from "./interface";
 import { Row, Col } from "antd";
-import { db } from "../../firebase";
-import { ref, onValue } from "firebase/database";
 import "./ChoiceLight.css";
 import { UserOutlined } from "@ant-design/icons";
 
 const ChoiceLightList = () => {
-  const [data, setData] = useState<IProps[]>([]);
+  // Store selected lights in local state instead of Firebase
+  const [selectedLights, setSelectedLights] = useState<IProps[]>([]);
 
-  useEffect(() => {
-    const dbRef = ref(db, "choiceLight");
-    onValue(dbRef, (snapshot) => {
-      const dataList = snapshot.val();
-      const dataArray = [];
-      if (dataList) {
-        for (let id in dataList) {
-          const light = dataList[id].light || "";
-          dataArray.push({ id, light });
-        }
+  // Function to add or update a light selection
+  const addOrUpdateLight = (data: IProps) => {
+    if (data.light.trim() === "") return;
+
+    setSelectedLights(prev => {
+      // Check if user already has a selection
+      const existingIndex = prev.findIndex(item => item.id === data.id);
+      
+      if (existingIndex >= 0) {
+        // Update existing selection
+        const updated = [...prev];
+        updated[existingIndex] = data;
+        return updated;
+      } else {
+        // Add new selection
+        return [...prev, data];
       }
-      setData(dataArray);
     });
-  }, []);
+  };
 
   const IChoiceLight: IChoiceLightProps[] = [
     {
@@ -99,22 +103,23 @@ const ChoiceLightList = () => {
                 imgSrc={item.imgSrc}
                 price={item.price || 0}
                 name={item.name}
+                onSelectLight={addOrUpdateLight}
               />
             </div>
           </Col>
         ))}
       </Row>
       
-      {data.length > 0 && (
+      {selectedLights.length > 0 && (
         <div className="choice-light-players">
           <div className="choice-light-players-header">
             <UserOutlined className="choice-light-players-icon" />
-            <h3 className="choice-light-players-title">目前的登入玩家</h3>
-            <span className="choice-light-players-count">{data.length}</span>
+            <h3 className="choice-light-players-title">目前的選擇</h3>
+            <span className="choice-light-players-count">{selectedLights.length}</span>
           </div>
           
           <div className="choice-light-players-grid">
-            {data.map((item, index) => (
+            {selectedLights.map((item, index) => (
               <div className="choice-light-player-item" key={index}>
                 <span className="choice-light-player-name">{item.id}</span>
                 <span className="choice-light-player-choice">{item.light}</span>
